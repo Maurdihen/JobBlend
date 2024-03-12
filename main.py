@@ -1,6 +1,7 @@
 from pprint import pprint
 
 from api.hh_api import HeadHunterAPI
+from api.superjob_api import SuperJobAPI
 from tools.hh_tools import get_current_currency
 
 
@@ -29,6 +30,15 @@ def user_interaction():
         vacancies = hh_api.get_vacancies(args)
         for i in vacancies:
             pprint(i.get_vacancy())
+    elif platform == "superjob":
+        superjob_api = SuperJobAPI()
+        text = input("Введите поисковой запрос:\n")
+        superjob_api.get_vacancies(text)
+        amount = int(input("Введите сколько вакансий должен включать топ по зарплате\n"))
+        superjob_api.get_top_vacancies(text, amount)
+        pprint(superjob_api.top_vacancies)
+        if input("Хотите ли вы сохранить данные?\n") in ['да', 'Да', 'ДА']:
+            superjob_api.save_vacancies()
 
 
 
